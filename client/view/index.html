@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script/jquery-2.2.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.min.js">
+   </script>
+    <script src="script/script.js"></script>
+  </head>
+  <body ng-controller="myCtrl">
+    <div class="row">
+        <div class="col-md-3">
+            
+        </div>
+        <div class="col-md-5">
+            <h1 class="headFont">
+               <u>?מה תרצה לעשות</u>
+            </h1>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+       <div class="col-md-3">
+            
+        </div>
+        <div class="col-md-4">
+            <a href="#/order">
+               <button type="button" class="btn btn-default">
+                לעדכן הזמנה
+                </button>
+            </a>
+        </div>
+        <a href="#/update">
+           <button type="button" class="btn btn-default">
+            לעדכן משלוח
+            </button>
+        </a>
+    </div>
+    <div ng-view></div>
+</html>

@@ -1,0 +1,26 @@
+body {
+    background-image: url(http://www.abc.net.au/reslib/200911/r474518_2387634.jpg);
+    background-size: cover;
+}
+
+.headFont{
+    color: white;
+    font-size: 75px;
+}
+
+.form-control{
+    width: 250px;
+}
+
+.input-group{
+    width: 250px;
+}
+#order{
+    background-color: bisque;
+    border-color: black;
+    border-style: solid;
+    border-radius: 50px;
+    width: 1000px;
+    height: 50px;
+    position: absolute;
+}

@@ -1,0 +1,28 @@
+
+[
+    {
+        "inventory" :
+            [
+                {
+                    "name" : "9006",
+                    "amount" : 2.5,
+                    "grainy" : false
+                },
+                {
+                    "name" : "3060",
+                    "amount" : 5,
+                    "grainy" : true
+                },
+                {
+                    "name" : "9005",
+                    "amount" : 5,
+                    "grainy" : false
+                },
+                {
+                    "name" : "7026",
+                    "amount" : 5,
+                    "grainy" : true
+                }
+             ]
+    }
+]

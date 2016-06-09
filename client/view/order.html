@@ -1,0 +1,16 @@
+<center>
+<div id="order" class="row">
+  <div class="input-group">
+      <div class="dropdown-menu">
+    <a class="dropdown-item" href="#" ng-repeat="inven in inventory">{{inven.name}}</a>
+      </div>
+   <input type="text" class="form-control bfh-number" ng-model="amount" ng-init="amount = 4">
+   <span class="input-group-addon bfh-number-btn inc" ng-click="amount = amount + 1">
+       <span class="glyphicon glyphicon-chevron-up"></span>
+   </span>
+   <span class="input-group-addon bfh-number-btn inc" ng-click="amount = amount - 1">
+       <span class="glyphicon glyphicon-chevron-down"></span>
+   </span>
+    </div>
+    </div>
+</center>
