@@ -8,19 +8,10 @@ body {
     font-size: 75px;
 }
 
-.form-control{
-    width: 250px;
+.grainy {
+    background-color: red;
 }
 
-.input-group{
-    width: 250px;
-}
-#order{
-    background-color: bisque;
-    border-color: black;
-    border-style: solid;
-    border-radius: 50px;
-    width: 1000px;
-    height: 50px;
-    position: absolute;
+.notGrainy {
+    background-color: blue; 
 }

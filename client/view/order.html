@@ -1,16 +1,36 @@
 <center>
-<div id="order" class="row">
-  <div class="input-group">
-      <div class="dropdown-menu">
-    <a class="dropdown-item" href="#" ng-repeat="inven in inventory">{{inven.name}}</a>
-      </div>
-   <input type="text" class="form-control bfh-number" ng-model="amount" ng-init="amount = 4">
-   <span class="input-group-addon bfh-number-btn inc" ng-click="amount = amount + 1">
-       <span class="glyphicon glyphicon-chevron-up"></span>
-   </span>
-   <span class="input-group-addon bfh-number-btn inc" ng-click="amount = amount - 1">
-       <span class="glyphicon glyphicon-chevron-down"></span>
-   </span>
+<form ng-submit="submit()" novalidate>
+    <div class="form-group form-inline order">
+            <br>
+        <label>כמות : </label>
+        <input type="number" class="form-control" ng-model="sprayAmount" required>
+        <label>שם : </label>
+        <select class="form-control" 
+                ng-model="sprayName" required>
+            <option value="{{inven}}" 
+                    ng-repeat="inven in inventory"
+                    ng-if="inven.grainy ? name = 'מגורען' : name = 'לא מגורען'" >{{inven.name}} | {{name}} | {{inven.type}}</option>
+        </select>
+         <span style="background-color: white; border-style: solid; border-radius: 50%;"
+               class="glyphicon glyphicon-plus"
+               ng-click="addSprayToOrder(sprayName, sprayAmount)"></span>
+        <br>
     </div>
-    </div>
+    <button ng-disabled="form.$invalid" class="btn btn-primary">שלח</button>
+</form>
+<br>
+<table ng-table="orderCtrl.tableParams" class="table table-condensed table-bordered table-striped">
+    <tr ng-repeat="ord in order">
+        <td title="'שם'">
+            {{ord.name}}</td>
+        <td title="'כמות'">
+            {{ord.amount}}</td>
+        <td title="'מגורען'">
+            <span ng-show="ord.grainy">מגורען</span>
+            <span ng-hide="ord.grainy">לא מגורען</span></td>
+        <td title="'סוג'">
+            {{ord.type}}</td>
+        <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+    </tr>
+</table>
 </center>

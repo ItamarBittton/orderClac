@@ -1,8 +1,8 @@
 var app = require('express')();
 var bodyParser = require('body-parser');
-var fs = require('fs');
-var obj;
-
+var DAL = require('./DAL');
+var dal = new DAL();
+var counter = 1;
 app.use(bodyParser.json());
 app.use(require('express').static('client'));
 
@@ -11,11 +11,23 @@ app.get('/', function(req, res) {
 });
 
 app.get('/getInventory', function(req, res){
-  fs.readFile(__dirname + "/client/files/inventory.json", 'utf8', function (err, data) {
-    if (err) throw err;
-    obj = JSON.parse(data);
-    res.send(obj);
-  });
+  
+      var callback = function(data) {
+          res.send(data);
+      }
+      dal.SELECT(callback);
+});
+
+app.post('/updateInventory', function(req, res){
+        var spray = req.body.data;
+        dal.UPDATE(spray.name, spray.amount, spray.grainy, spray.type);
+        console.log('update' + counter++);
+});
+
+app.post('/insertInventory', function(req, res){
+        var spray = req.body.data;
+        dal.INSERT(spray.name, spray.amount, spray.grainy, spray.type);
+        console.log('insert' + counter++);
 });
 
 var port = process.env.PORT || 8080;

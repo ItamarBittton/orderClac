@@ -1,0 +1,41 @@
+<center>
+    <form ng-submit="submit()" novalidate>
+        <div class="form-group form-inline order">
+                <br>
+            <label>כמות : </label>
+            <input type="number" class="form-control" ng-model="sprayAmount" required>
+            <label>שם : </label>
+            <input type="text" class="form-control" ng-model="sprayName" required>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="sprayGrainy">
+                    מגורען?
+                </label>
+            </div>
+            <select class="form-control" ng-model="sprayType">
+                <option value="ונילי">ונילי</option>
+                <option value="חד ערכי">חד ערכי</option>
+            </select>
+            <span style="background-color: white; border-style: solid; border-radius: 50%;"
+                class="glyphicon glyphicon-plus"
+                ng-click="addSprayToOrder(sprayName, sprayAmount, sprayGrainy, sprayType, 0)"></span>
+            <br>
+        </div>
+        <button ng-disabled="form.$invalid" class="btn btn-primary">שלח</button>
+    </form>
+    <br>
+    <table ng-table="sendingCtrl.tableParams" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="ord in order">
+            <td title="'שם'">
+                {{ord.name}}</td>
+            <td title="'כמות'">
+                {{ord.amount}}</td>
+            <td title="'מגורען'">
+                <span ng-show="ord.grainy">מגורען</span>
+                <span ng-hide="ord.grainy">לא מגורען</span></td>
+            <td title="'סוג'">
+                {{ord.type}}</td>
+            <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+        </tr>
+    </table>
+</center>

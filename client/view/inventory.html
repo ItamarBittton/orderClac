@@ -1,0 +1,14 @@
+<table ng-table="inventoryCtrl.tableParams" class="table table-condensed table-bordered table-striped">
+    <tr ng-repeat="ord in order">
+        <td title="'שם'">
+            {{ord.name}}</td>
+        <td title="'כמות'">
+            {{ord.amount}}</td>
+        <td title="'מגורען'">
+            <span ng-show="ord.grainy">מגורען</span>
+            <span ng-hide="ord.grainy">לא מגורען</span></td>
+        <td title="'סוג'">
+            {{ord.type}}</td>
+        <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+    </tr>
+</table>
