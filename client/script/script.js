@@ -18,35 +18,58 @@ myApp
 })
 
 .controller('sendingCtrl', function($scope, myService){
-    $scope.inventory = [];
-    $scope.order = [];
-    $scope.submit = function() {
-        myService.getSomething('/getInventory', function(data){
-        $scope.inventory = data.data;
+    var spray = function(name, amount, grainy, type){
+        this.name = name;
+        this.amount = amount;
+        this.grainy = grainy;
+        this.type = type;
+    };
 
-            $scope.order.forEach(function(element) {
-                
-                    myService.updateSomething('/insertInventory',
-                                function(err, data){
-                                    console.log(err, data);
-                                },
-                                {data : element});         
-                // } else {
-                //      myService.updateSomething('/updateInventory',
-                //                 function(err, data){
-                //                     console.log(err, data);
-                //                 },
-                //                 {data : element});
-                // }
-            });
-        
-        });   
+    $scope.order = [];
+    $scope.isSubmit = true;
+
+    $scope.submit = function() {
+        $scope.isSubmit = false;
+        myService.updateSomething('/sendSending', function(err){
+            $scope.isSubmit = true;
+            $scope.order = [];
+            if (err.status == 200) {
+                swal({
+                    title: '!הפעולה בוצעה בהצלחה',
+                    text: '.אשריך צדיק',
+                    timer: 3000,
+                    type : 'success'
+                })
+            } else {
+                swal({
+                    title: 'תקלה באמצע הדרך',
+                    text: 'אנא פנה לאיתמר לתמיכה',
+                    timer: 3000,
+                    type : 'error'
+                })
+            }
+        }, {data : $scope.order});   
     }
 
-    $scope.addSprayToOrder = function(name, amount, grainy, type, currAmount) {
-        $scope.order.push(new spray(name, amount, returnNumberFromBoolean(grainy), type, currAmount));
+    $scope.addSprayToOrder = function(name, amount, grainy, type) {
+        $scope.order.push(new spray(name, amount, returnNumberFromBoolean(grainy), type));
     }
     
+    function removeSpray(element) {
+        var tempArray = [];
+
+        for (var i = 0; i < $scope.order.length; i++){
+            if ($scope.order[i] != element){
+                tempArray.push($scope.order[i]);
+            }
+        }
+        
+        $scope.order = tempArray;
+    }
+    $scope.remove = function(currSpray){
+        delete currSpray.$$hashKey;
+        removeSpray(currSpray);
+    }
 })
 
 .controller('inventoryCtrl', function($scope, myService){
@@ -56,7 +79,13 @@ myApp
 })
 
 .controller('orderCtrl', function($scope, myService){
-
+    var spray = function(name, amount, grainy, type, currAmount){
+        this.name = name;
+        this.amount = amount;
+        this.grainy = grainy;
+        this.type = type;
+        this.currAmount = currAmount;
+    };
     $scope.order = [];
 
     myService.getSomething('/getInventory', function(data){

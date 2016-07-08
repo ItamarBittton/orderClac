@@ -14,18 +14,20 @@
             </div>
             <select class="form-control" ng-model="sprayType">
                 <option value="ונילי">ונילי</option>
-                <option value="חד ערכי">חד ערכי</option>
+                <option value="חד רכיבי">חד רכיבי</option>
             </select>
             <span style="background-color: white; border-style: solid; border-radius: 50%;"
                 class="glyphicon glyphicon-plus"
-                ng-click="addSprayToOrder(sprayName, sprayAmount, sprayGrainy, sprayType, 0)"></span>
+                ng-click="addSprayToOrder(sprayName, sprayAmount, sprayGrainy, sprayType)"></span>
             <br>
         </div>
-        <button ng-disabled="form.$invalid" class="btn btn-primary">שלח</button>
+        <div ng-show="isSubmit">
+            <button ng-disabled="form.$invalid" class="btn btn-primary">שלח</button>
+        </div>
     </form>
     <br>
     <table ng-table="sendingCtrl.tableParams" class="table table-condensed table-bordered table-striped">
-        <tr ng-repeat="ord in order">
+        <tr ng-repeat="ord in order track by $index">
             <td title="'שם'">
                 {{ord.name}}</td>
             <td title="'כמות'">
@@ -35,7 +37,7 @@
                 <span ng-hide="ord.grainy">לא מגורען</span></td>
             <td title="'סוג'">
                 {{ord.type}}</td>
-            <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+            <td ng-click="remove(ord)"><button class="btn btn-danger">הסר</button></td>
         </tr>
     </table>
 </center>

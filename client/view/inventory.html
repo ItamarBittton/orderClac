@@ -1,14 +1,14 @@
 <table ng-table="inventoryCtrl.tableParams" class="table table-condensed table-bordered table-striped">
-    <tr ng-repeat="ord in order">
+    <tr ng-repeat="inven in inventory">
         <td title="'שם'">
-            {{ord.name}}</td>
+            {{inven.name}}</td>
         <td title="'כמות'">
-            {{ord.amount}}</td>
+            {{inven.amount}}</td>
         <td title="'מגורען'">
-            <span ng-show="ord.grainy">מגורען</span>
-            <span ng-hide="ord.grainy">לא מגורען</span></td>
+            <span ng-show="inven.grainy">מגורען</span>
+            <span ng-hide="inven.grainy">לא מגורען</span></td>
         <td title="'סוג'">
-            {{ord.type}}</td>
+            {{inven.type}}</td>
         <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
     </tr>
 </table>
