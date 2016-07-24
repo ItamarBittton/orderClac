@@ -40,6 +40,7 @@ var DAL = function(){
                 } else if (result.length){
                     callback(result);
                 } else {
+                    callback([]);
                     console.log('the current collection has no results');
                 }
 
@@ -104,7 +105,7 @@ var DAL = function(){
                 //HURRAY!! We are connected. :)
                 //console.log('Connection established to', url);
                 var collection = db.collection(collectionName);
-                collection.updateOne({"name" : spray.name, "grainy" : spray.grainy, "type" : spray.type}, {$inc : {amount : spray.amount}}, function(err, result){
+                collection.updateOne({"kind" : spray.kind, "name" : spray.name, "grainy" : spray.grainy, "type" : spray.type}, {$inc : {amount : spray.amount}}, function(err, result){
 
                     //Close connection
                     db.close();
@@ -143,7 +144,7 @@ var DAL = function(){
                 //console.log('Connection established to', url);
                 var collection = db.collection(collectionName);
                 try {
-                    collection.deleteOne( {"name" : spray.name, "grainy" : spray.grainy, "type" : spray.type} , function(err){
+                    collection.deleteOne( {"kind" : spray.kind, "name" : spray.name, "grainy" : spray.grainy, "type" : spray.type} , function(err){
                             
                         //Close connection
                         db.close();

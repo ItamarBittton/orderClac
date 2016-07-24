@@ -1,29 +1,8 @@
-body {
-    background-image: url(http://www.wurth.co.il/sites/default/files/styles/product-zoom/public/images/products/0893337024/002.jpg?itok=PdvJnYK0);
-    background-size: cover;
-}
-
-.headFont{
-    color: black;
-    font-size: 75px;
-}
-
-td:nth-child(2n+0) {
-    background: cornflowerblue;
-}
-td:nth-child(2n+1) {
-    background: cadetblue;
-}
-
-tr {
-    background-color: coral;
-}
-
-label {
-    color : white;
-}
-/***************************************/
-@font-face {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        @font-face {
   font-family: "FontAwesome";
   src: url('https://github.com/FortAwesome/Font-Awesome/raw/master/font/fontawesome-webfont.eot');
   src: url('https://github.com/FortAwesome/Font-Awesome/raw/master/font/fontawesome-webfont.eot?#iefix') format('eot'), url('https://github.com/FortAwesome/Font-Awesome/raw/master/font/fontawesome-webfont.woff') format('woff'), url('https://github.com/FortAwesome/Font-Awesome/raw/master/font/fontawesome-webfont.ttf') format('truetype'), url('https://github.com/FortAwesome/Font-Awesome/raw/master/font/fontawesome-webfont.svg#FontAwesomeRegular') format('svg');
@@ -1136,3 +1115,40 @@ body {
     transform: translateY(1em) scale(3) rotate(15deg);
   }
 }
+
+    </style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+  <h1><strong>ClearNav</strong> responsive navigation</h1>
+  <nav role="navigation" id="access">
+    <a class="skip-link icon-reorder" title="Accéder au menu" href="#menu">Menu</a>
+    <ul id="menu"><!-- whitespace
+            --><li>
+                    <a href="#/order">
+                        הזמנה
+                    </a>
+                </li><!-- whitespace
+                --><li><a href="#/update">
+                        משלוח
+                </a></li><!-- whitespace
+                --><li> <a href="#/inventory"> צפייה במלאי </a></li>
+          </ul>
+      </nav>
+</div>
+<script>
+    ;(function($) {
+    "use strict";
+    $(document).ready(function() {
+        $('#access').on('touchstart click', '.skip-link', function(event) {
+            $(this).toggleClass('focus');
+            $($(this).attr('href')).toggleClass('target');
+            event.preventDefault();
+        }).find('.skip-link').append('<span>'+$('#menu .active').text()+'</span>');
+    });
+})(jQuery);
+</script>
+</body>
+</html>

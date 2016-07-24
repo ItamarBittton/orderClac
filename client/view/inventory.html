@@ -1,7 +1,10 @@
+<button style="padding-left: 50%; padding-right: 50%" class="btn btn-danger" ng-click="sendToDelete()">הסר</button>
 <table ng-table="inventoryCtrl.tableParams" class="table table-condensed table-bordered table-striped">
     <tr ng-repeat="inven in inventory">
+        <td title="'סוג מניפה'">
+                <strong>{{inven.kind}}</strong></td>
         <td title="'שם'">
-            {{inven.name}}</td>
+            <strong>{{inven.name}}</strong></td>
         <td title="'כמות'">
             {{inven.amount}}</td>
         <td title="'מגורען'">
@@ -9,6 +12,8 @@
             <span ng-hide="inven.grainy">לא מגורען</span></td>
         <td title="'סוג'">
             {{inven.type}}</td>
-        <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+        <td title="'הסרה'">
+            <input type="checkbox" checklist-model="checkList" checklist-value="inven">
+        </td>
     </tr>
 </table>

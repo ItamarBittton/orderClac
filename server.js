@@ -7,13 +7,15 @@ app.use(bodyParser.json());
 app.use(require('express').static('client'));
 
 function cmpCurrObj(obj, element){
-    return (obj.name == element.name &&
+    return (obj.kind == element.kind &&
+            obj.name == element.name &&
             obj.grainy == element.grainy &&
             obj.type == element.type ? true : false);
 }
 
 function findIfInArray(obj, array) {
     var bool = false;
+    
     array.forEach(function(element){
         if(cmpCurrObj(obj, element)){
             bool = true;
@@ -80,6 +82,8 @@ app.post('/updateInventory', function(req, res){
             counterCallback++;
             if (counterCallback < spray.length) {
                 dal.UPDATE(spray[counterCallback], callback);
+            } else {
+                res.send(null);
             }
         }
 
@@ -96,7 +100,7 @@ app.post('/insertInventory', function(req, res){
         console.log('insert' + counter++);
 });
 
-app.delete('/deleteInventory', function(req, res){
+app.post('/deleteInventory', function(req, res){
     var deleteArray = req.body.data;
     var counterCallback = 0;
 
@@ -119,3 +123,5 @@ var port = process.env.PORT || 8080;
 app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
 });
+
+// ral / un

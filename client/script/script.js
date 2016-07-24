@@ -1,16 +1,12 @@
-var spray = function(name, amount, grainy, type, currAmount){
+var spray = function(kind, name, amount, grainy, type){
+        this.kind = kind;
         this.name = name;
         this.amount = amount;
         this.grainy = grainy;
         this.type = type;
-        this.currAmount = currAmount;
-};
+    };
 
-function returnNumberFromBoolean(bool){
-    return (bool ? 1 : 0);
-}
-
-var myApp = angular.module('myApp', ['ngRoute', "ngTable"]);
+var myApp = angular.module('myApp', ['ngRoute', "ngTable", "checklist-model"]);
 myApp
     
 .controller('myCtrl', function($scope, myService){
@@ -18,41 +14,50 @@ myApp
 })
 
 .controller('sendingCtrl', function($scope, myService){
-    var spray = function(name, amount, grainy, type){
-        this.name = name;
-        this.amount = amount;
-        this.grainy = grainy;
-        this.type = type;
-    };
 
     $scope.order = [];
     $scope.isSubmit = true;
 
     $scope.submit = function() {
-        $scope.isSubmit = false;
-        myService.updateSomething('/sendSending', function(err){
-            $scope.isSubmit = true;
-            $scope.order = [];
-            if (err.status == 200) {
-                swal({
-                    title: '!הפעולה בוצעה בהצלחה',
-                    text: '.אשריך צדיק',
-                    timer: 3000,
-                    type : 'success'
-                })
-            } else {
-                swal({
-                    title: 'תקלה באמצע הדרך',
-                    text: 'אנא פנה לאיתמר לתמיכה',
-                    timer: 3000,
-                    type : 'error'
-                })
-            }
-        }, {data : $scope.order});   
+        if(!$scope.order){
+             swal({
+                        title: 'לא הזנת אף פריט לעדכון',
+                        timer: 3000,
+                        type : 'error'
+                    })
+        } else {
+            $scope.isSubmit = false;
+            myService.updateSomething('/sendSending', function(err){
+                $scope.isSubmit = true;
+                $scope.order = [];
+                if (err.status == 200) {
+                    swal({
+                        title: '!הפעולה בוצעה בהצלחה',
+                        text: '.אשריך צדיק',
+                        timer: 3000,
+                        type : 'success'
+                    })
+                } else {
+                    swal({
+                        title: 'תקלה באמצע הדרך',
+                        text: 'אנא פנה לאיתמר לתמיכה',
+                        type : 'error'
+                    })
+                }
+            }, {data : $scope.order});
+        }   
     }
 
-    $scope.addSprayToOrder = function(name, amount, grainy, type) {
-        $scope.order.push(new spray(name, amount, returnNumberFromBoolean(grainy), type));
+    $scope.addSprayToOrder = function(kind, size, name, amount, grainy, type) {
+        if(!size || !name || !amount || !type){
+            swal({
+                        title: 'לא הזנת אף פריט לעדכון',
+                        timer: 3000,
+                        type : 'error'
+                    })
+        } else {
+            $scope.order.push(new spray(kind, name, amount * size, grainy, type));
+        }
     }
     
     function removeSpray(element) {
@@ -73,32 +78,92 @@ myApp
 })
 
 .controller('inventoryCtrl', function($scope, myService){
+    $scope.checkList = [];
     myService.getSomething('/getInventory', function(data){
         $scope.inventory = data.data;
     });
+
+    $scope.sendToDelete = function() {
+        myService.updateSomething('/deleteInventory',
+                                 function(err){
+                                     $scope.checkList = [];
+                                     if (err.status == 200) {
+                                        swal({
+                                            title: '!הפעולה בוצעה בהצלחה',
+                                            text: '.אשריך צדיק',
+                                            timer: 3000,
+                                            type : 'success'
+                                        })
+                                        $scope.inventory = [];
+                                        myService.getSomething('/getInventory', function(data){
+                                            $scope.inventory = data.data;
+                                        });
+                                    } else {
+                                        swal({
+                                            title: 'תקלה באמצע הדרך',
+                                            text: 'אנא פנה לאיתמר לתמיכה',
+                                            type : 'error'
+                                        })
+                                    }
+                                 },
+                                 {data : $scope.checkList});
+    }
 })
 
 .controller('orderCtrl', function($scope, myService){
-    var spray = function(name, amount, grainy, type, currAmount){
-        this.name = name;
-        this.amount = amount;
-        this.grainy = grainy;
-        this.type = type;
-        this.currAmount = currAmount;
-    };
+    
     $scope.order = [];
 
     myService.getSomething('/getInventory', function(data){
         $scope.inventory = data.data;
     });
 
-    $scope.addSprayToOrder = function(currSpray, amount) {
-        var parsedSprayObj = JSON.parse(currSpray);
-        $scope.order.push(new spray(parsedSprayObj.name, amount, parsedSprayObj.grainy, parsedSprayObj.amount));
+    $scope.addSprayToOrder = function(size, currSpray, amount) {
+        if (!currSpray || !amount){
+            swal({
+                        title: 'לא הזנת אף פריט לעדכון',
+                        timer: 3000,
+                        type : 'error'
+                    })
+        } else {
+            var parsedSprayObj = JSON.parse(currSpray);
+            $scope.order.push(new spray(parsedSprayObj.kind, parsedSprayObj.name, amount * size, parsedSprayObj.grainy, parsedSprayObj.type));
+        }
     }
 
     $scope.submit = function() {
-        console.log('entered');
+        $scope.order.forEach(function(element) {
+            element.amount *= -1;
+        });
+        
+        if(!$scope.order){
+             swal({
+                        title: 'לא הזנת אף פריט לעדכון',
+                        timer: 3000,
+                        type : 'error'
+                    })
+        } else {
+            $scope.isSubmit = false;
+            myService.updateSomething('/updateInventory', function(err){
+                $scope.isSubmit = true;
+                $scope.order = [];
+                if (err.status == 200) {
+                    swal({
+                        title: 'הפעולה בוצעה בהצלחה!',
+                        text: 'אשריך צדיק.',
+                        timer: 3000,
+                        type : 'success'
+                    })
+                } else {
+                    swal({
+                        title: 'תקלה באמצע הדרך',
+                        text: 'אנא פנה לאיתמר לתמיכה',
+                        type : 'error'
+                    })
+                }
+            }, {data : $scope.order});
+        }   
+
     }
 })
 
@@ -135,6 +200,13 @@ myApp
                                     callback(data);
                                 }, function(err){
                                   console.log(err);
+                                });
+                            },
+            deleteSomthing : function(path, callback, data) {
+                                $http.delete(path, data).then(function(status){
+                                    callback(status);
+                                }, function(err){
+                                    console.log(err);
                                 });
                             }
       }

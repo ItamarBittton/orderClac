@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="myApp" dir="rtl">
   <head>
+      <title>מחשבון ספריי</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.0.8/sweetalert2.min.css">
@@ -11,38 +12,37 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.js"></script>
     <script src="https://cdn.jsdelivr.net/sweetalert2/4.0.8/sweetalert2.min.js"></script>
+    <script src="script/checklist-model.js"></script>
     <script src="script/script.js"></script>
   </head>
   <body ng-controller="myCtrl">
-    <center>
-        <h1 class="headFont">
-            <u>?מה תרצה לעשות</u>
-        </h1>
-    </center>
-    <br>
-    <br>
-    <br>
-    <div class="row">
-       <div class="col-md-3">
-            
-        </div>
-        <div class="col-md-4">
-            <a href="#/order">
-               <button type="button" class="btn btn-default">
-                הזמנה
-                </button>
-            </a>
-        </div>
-        <a href="#/update">
-           <button type="button" class="btn btn-default">
-            משלוח
-            </button>
-        </a>
-        <a href="#/inventory">
-           <button type="button" class="btn btn-default">
-            צפייה במלאי
-            </button>
-        </a>
-    </div>
-    <div ng-view></div>
+        <div id="wrapper">
+  <nav role="navigation" id="access">
+    <a class="skip-link icon-reorder" title="Accéder au menu" href="#menu">Menu</a>
+    <ul id="menu"><!-- whitespace
+            --><li>
+                    <a href="#/order">
+                        הזמנה
+                    </a>
+                </li><!-- whitespace
+                --><li><a href="#/update">
+                        משלוח
+                </a></li><!-- whitespace
+                --><li> <a href="#/inventory"> צפייה במלאי </a></li>
+          </ul>
+      </nav>
+      <div ng-view></div>
+</div>
+<script>
+    ;(function($) {
+    "use strict";
+    $(document).ready(function() {
+        $('#access').on('touchstart click', '.skip-link', function(event) {
+            $(this).toggleClass('focus');
+            $($(this).attr('href')).toggleClass('target');
+            event.preventDefault();
+        }).find('.skip-link').append('<span>'+$('#menu .active').text()+'</span>');
+    });
+})(jQuery);
+</script>
 </html>

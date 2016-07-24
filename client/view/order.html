@@ -2,6 +2,12 @@
 <form ng-submit="submit()" novalidate>
     <div class="form-group form-inline order">
             <br>
+        <label>גודל</label>
+        <select class="form-control" 
+                ng-model="spraySize" required>
+                <option value="1">ספריי</option>
+                <option value="7.5">פחית</option>
+        </select>
         <label>כמות : </label>
         <input type="number" class="form-control" ng-model="sprayAmount" required>
         <label>שם : </label>
@@ -9,11 +15,11 @@
                 ng-model="sprayName" required>
             <option value="{{inven}}" 
                     ng-repeat="inven in inventory"
-                    ng-if="inven.grainy ? name = 'מגורען' : name = 'לא מגורען'" >{{inven.name}} | {{name}} | {{inven.type}}</option>
+                    ng-if="inven.grainy ? name = 'מגורען' : name = 'לא מגורען'" >{{inven.kind}} | {{inven.name}} | {{name}} | {{inven.type}}</option>
         </select>
          <span style="background-color: white; border-style: solid; border-radius: 50%;"
                class="glyphicon glyphicon-plus"
-               ng-click="addSprayToOrder(sprayName, sprayAmount)"></span>
+               ng-click="addSprayToOrder(spraySize, sprayName, sprayAmount)"></span>
         <br>
     </div>
     <button ng-disabled="form.$invalid" class="btn btn-primary">שלח</button>
@@ -21,8 +27,10 @@
 <br>
 <table ng-table="orderCtrl.tableParams" class="table table-condensed table-bordered table-striped">
     <tr ng-repeat="ord in order">
+        <td title="'סוג מניפה'">
+                {{ord.kind}}</td>
         <td title="'שם'">
-            {{ord.name}}</td>
+            <strong>{{ord.name}}</strong></td>
         <td title="'כמות'">
             {{ord.amount}}</td>
         <td title="'מגורען'">
@@ -30,7 +38,7 @@
             <span ng-hide="ord.grainy">לא מגורען</span></td>
         <td title="'סוג'">
             {{ord.type}}</td>
-        <td ng-click="remove(this)"><button class="btn btn-danger">הסר</button></td>
+        <td ng-click="remove(ord)"><button style="width: 100%;" class="btn btn-danger">הסר</button></td>
     </tr>
 </table>
 </center>
