@@ -19,7 +19,7 @@ myApp
     $scope.isSubmit = true;
 
     $scope.submit = function() {
-        if(!$scope.order){
+        if(!$scope.order.length){
              swal({
                         title: 'לא הזנת אף פריט לעדכון',
                         timer: 3000,
@@ -49,7 +49,7 @@ myApp
     }
 
     $scope.addSprayToOrder = function(kind, size, name, amount, grainy, type) {
-        if(!size || !name || !amount || !type){
+        if(!kind || !size || !name || !amount || !type){
             swal({
                         title: 'לא הזנת אף פריט לעדכון',
                         timer: 3000,
@@ -84,7 +84,14 @@ myApp
     });
 
     $scope.sendToDelete = function() {
-        myService.updateSomething('/deleteInventory',
+        if(!$scope.checkList.length){
+            swal({
+                        title: 'לא הזנת אף פריט למחיקה',
+                        timer: 3000,
+                        type : 'error'
+                    })
+        } else {
+            myService.updateSomething('/deleteInventory',
                                  function(err){
                                      $scope.checkList = [];
                                      if (err.status == 200) {
@@ -107,6 +114,7 @@ myApp
                                     }
                                  },
                                  {data : $scope.checkList});
+        }
     }
 })
 
@@ -119,14 +127,19 @@ myApp
     });
 
     $scope.addSprayToOrder = function(size, currSpray, amount) {
-        if (!currSpray || !amount){
+        var parsedSprayObj = JSON.parse(currSpray);
+        if (!parsedSprayObj.kind ||
+            !parsedSprayObj.name || 
+            !parsedSprayObj.grainy || 
+            !size || 
+            !amount || 
+            parsedSprayObj.type){
             swal({
                         title: 'לא הזנת אף פריט לעדכון',
                         timer: 3000,
                         type : 'error'
                     })
         } else {
-            var parsedSprayObj = JSON.parse(currSpray);
             $scope.order.push(new spray(parsedSprayObj.kind, parsedSprayObj.name, amount * size, parsedSprayObj.grainy, parsedSprayObj.type));
         }
     }
@@ -136,7 +149,7 @@ myApp
             element.amount *= -1;
         });
         
-        if(!$scope.order){
+        if(!$scope.order.length){
              swal({
                         title: 'לא הזנת אף פריט לעדכון',
                         timer: 3000,

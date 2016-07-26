@@ -8,14 +8,14 @@ body {
     font-size: 75px;
 }
 
-td:nth-child(2n+0) {
+tr:nth-child(2n+0) {
     background: cornflowerblue;
 }
-td:nth-child(2n+1) {
+tr:nth-child(2n+1) {
     background: cadetblue;
 }
 
-tr {
+td {
     background-color: coral;
 }
 
