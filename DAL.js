@@ -34,7 +34,7 @@ var DAL = function(){
         } else {
             //HURRAY!! We are connected. :)
             var collection = db.collection(collectionName);
-            collection.find({}, {"_id" : 0}).toArray(function(err, result){
+            collection.find({}, {"_id" : 0}).sort( { name : 1 } ).toArray(function(err, result){
                 if(err){
                     console.log('cannot find the current collection', err);
                 } else if (result.length){

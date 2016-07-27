@@ -130,10 +130,9 @@ myApp
         var parsedSprayObj = JSON.parse(currSpray);
         if (!parsedSprayObj.kind ||
             !parsedSprayObj.name || 
-            !parsedSprayObj.grainy || 
             !size || 
             !amount || 
-            parsedSprayObj.type){
+            !parsedSprayObj.type){
             swal({
                         title: 'לא הזנת אף פריט לעדכון',
                         timer: 3000,
